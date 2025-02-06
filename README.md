@@ -1,5 +1,7 @@
-#Real Estate Listing Platform Documentation
+Real Estate Listing Platform Documentation
+
 Overview
+
 The Real Estate Listing Platform is a Django-based web application designed to connect buyers and sellers in the real estate market. The platform allows sellers to list their properties, while buyers can search for, filter, and purchase these listings. The system features role-based access control, ensuring that sellers and buyers have distinct permissions. Additionally, a cart system allows buyers to add properties to their cart and proceed with purchases.
 
 Key Features
