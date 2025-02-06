@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup</title>
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        body {
+            background-color:beige;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .signup-container {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 450px;
+            padding: 50px;
+            text-align: center;
+            overflow-y: auto;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .signup-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 36px rgba(0, 0, 0, 0.15);
+        }
+
+        .signup-heading {
+            font-size: 32px;
+            color: #2c3e50;
+            margin-bottom: 25px;
+            font-weight: 600;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            font-size: 16px;
+            color: #2c3e50;
+            margin-bottom: 8px;
+            text-align: left;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group select {
+            padding: 14px;
+            font-size: 16px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            width: 100%;
+            background-color: #f9f9f9;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: #3498db;
+            outline: none;
+        }
+
+        .signup-button {
+            background-color: #3498db;
+            color: white;
+            padding: 14px 22px;
+            border-radius: 8px;
+            font-size: 18px;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .signup-button:hover {
+            background-color: #2980b9;
+            transform: scale(1.05);
+        }
+
+        .login-link {
+            margin-top: 25px;
+            font-size: 16px;
+            color: #333;
+        }
+
+        .login-anchor {
+            color: #3498db;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .login-anchor:hover {
+            color: #1abc9c;
+        }
+
+        /* Border Animation */
+        .form-group input,
+        .form-group select {
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: #3498db;
+            box-shadow: 0 0 8px rgba(52, 152, 219, 0.5);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 480px) {
+            .signup-container {
+                padding: 25px;
+                width: 100%;
+                max-width: 380px;
+            }
+
+            .signup-heading {
+                font-size: 28px;
+            }
+
+            .form-group input,
+            .form-group select {
+                font-size: 14px;
+                padding: 12px;
+            }
+
+            .signup-button {
+                font-size: 16px;
+                padding: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="signup-container">
+        <h2 class="signup-heading">Sign Up</h2>
+        <form method="POST" class="signup-form">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <label for="id_username">Username:</label>
+                {{ form.username }}
+            </div>
+
+            <div class="form-group">
+                <label for="id_email">Email address:</label>
+                {{ form.email }}
+            </div>
+
+            <div class="form-group">
+                <label for="id_role">Role:</label>
+                {{ form.role }}
+            </div>
+
+            <div class="form-group">
+                <label for="id_password1">Password:</label>
+                {{ form.password1 }}
+            </div>
+
+            <div class="form-group">
+                <label for="id_password2">Password confirmation:</label>
+                {{ form.password2 }}
+            </div>
+
+            <button type="submit" class="signup-button">Sign Up</button>
+        </form>
+        <p class="login-link">Already have an account? <a href="{% url 'login' %}" class="login-anchor">Log in</a></p>
+    </div>
+
+</body>
+</html>

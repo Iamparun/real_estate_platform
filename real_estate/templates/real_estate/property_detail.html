@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ property.title }} - Property Details</title>
+    <style>
+        /* Global Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #ece9e6, #ffffff);
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .property-container {
+            background: white;
+            padding: 35px;
+            border-radius: 15px;
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+            width: 100%;
+            max-width: 900px;
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+            overflow: hidden;
+        }
+
+        .property-container:hover {
+            transform: scale(1.03);
+            box-shadow: 0 16px 32px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 25px;
+            font-size: 30px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .property-detail {
+            margin-bottom: 18px;
+            font-size: 16px;
+            padding: 12px 18px;
+            border-radius: 8px;
+            background: rgba(245, 245, 245, 0.8);
+            box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.05);
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        .property-detail:hover {
+            background-color: #eef5ff;
+        }
+
+        .property-detail strong {
+            color: #2c3e50;
+            font-weight: 700;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .property-detail p {
+            color: #555;
+        }
+
+        .property-detail img {
+            width: 100%;
+            max-width: 550px;
+            height: auto;
+            border-radius: 10px;
+            margin: 15px auto;
+            display: block;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .property-detail img:hover {
+            transform: scale(1.05);
+        }
+
+        .back-link {
+            display: block;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #2575fc;
+            font-weight: bold;
+            font-size: 16px;
+            text-align: center;
+            transition: color 0.3s ease-in-out;
+        }
+
+        .back-link:hover {
+            color: #6a11cb;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="property-container">
+        <h1>{{ property.title }}</h1>
+
+        <div class="property-detail">
+            <strong>Description:</strong>
+            <p>{{ property.description }}</p>
+        </div>
+
+        <div class="property-detail">
+            <strong>Price:</strong>
+            <p>${{ property.price }}</p>
+        </div>
+
+        <div class="property-detail">
+            <strong>Location:</strong>
+            <p>{{ property.location }}</p>
+        </div>
+
+        <div class="property-detail">
+            <strong>Property Type:</strong>
+            <p>{{ property.get_property_type_display }}</p>
+        </div>
+
+        <div class="property-detail">
+            <strong>Listed Date:</strong>
+            <p>{{ property.listed_date|date:"F j, Y" }}</p>
+        </div>
+
+        <div class="property-detail">
+            <strong>Availability:</strong>
+            <p>{{ property.available|yesno:"Available,Not Available" }}</p>
+        </div>
+
+        {% if property.image %}
+            <div class="property-detail">
+                <strong>Image:</strong>
+                <img src="{{ property.image.url }}" alt="{{ property.title }}">
+            </div>
+        {% else %}
+            <div class="property-detail">
+                <strong>No Image Available</strong>
+            </div>
+        {% endif %}
+
+        <div class="property-detail">
+            <strong>Contact Information:</strong>
+            {% if property.contact_number %}
+                <p>Phone: {{ property.contact_number }}</p>
+            {% else %}
+                <p>No contact information available</p>
+            {% endif %}
+        </div>
+
+        <div class="property-detail">
+            <strong>Seller's Name:</strong>
+            <p>{{ property.seller.username }}</p>
+        </div>
+
+        <a href="{% url 'seller_dashboard' %}" class="back-link">Back to Dashboard</a>
+    </div>
+</body>
+</html>
+

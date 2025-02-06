@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buyer Dashboard</title>
+    <style>
+        /* Global Styles */
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color:beige;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Container */
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            margin-top: 20px;
+            animation: fadeIn 0.8s ease-in-out;
+        }
+
+        h1 {
+            text-align: center;
+            color: #222;
+            margin-bottom: 20px;
+        }
+
+        /* Logout Button */
+        .logout-form {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 15px;
+        }
+
+        .logout-btn {
+            background: linear-gradient(135deg, #ff416c, #ff4b2b);
+            border: none;
+            padding: 10px 20px;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .logout-btn:hover {
+            background: linear-gradient(135deg, #ff4b2b, #ff416c);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 75, 43, 0.3);
+        }
+
+        /* Table Styling */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background: #6a11cb;
+            color: white;
+            font-weight: bold;
+        }
+
+        tr:hover {
+            background: rgba(106, 17, 203, 0.1);
+            transition: 0.3s;
+        }
+
+        /* Image Handling */
+        img {
+            width: 100px;
+            height: 80px;
+            border-radius: 5px;
+            object-fit: cover;
+            box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .no-image {
+            width: 100px;
+            height: 80px;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #777;
+            font-size: 12px;
+            border-radius: 5px;
+        }
+
+        /* Links */
+        a {
+            text-decoration: none;
+            color: #2575fc;
+            font-weight: 600;
+        }
+
+        a:hover {
+            text-decoration: underline;
+            color: #6a11cb;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+
+            table {
+                font-size: 14px;
+            }
+
+            th, td {
+                padding: 10px;
+            }
+
+            img {
+                width: 80px;
+                height: 60px;
+            }
+
+            .logout-btn {
+                padding: 8px 15px;
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                width: 95%;
+                padding: 15px;
+            }
+
+            h1 {
+                font-size: 20px;
+            }
+
+            table {
+                font-size: 12px;
+            }
+
+            th, td {
+                padding: 8px;
+            }
+
+            img {
+                width: 70px;
+                height: 50px;
+            }
+
+            .logout-btn {
+                font-size: 12px;
+                padding: 6px 10px;
+            }
+        }
+
+        /* Fade-in Animation */
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Buyer Dashboard</h1>
+
+        <!-- Logout Button -->
+        <form action="{% url 'logout' %}" method="post" class="logout-form">
+            {% csrf_token %}
+            <button type="submit" class="logout-btn">Logout</button>
+        </form>
+
+        <!-- Property Table -->
+        <table>
+            <thead>
+                <tr>
+                    <th>Image</th>
+                    <th>Title</th>
+                    <th>Price</th>
+                    <th>Location</th>
+                    <th>Status</th>
+                    <th>Description</th>
+                    <th>Details</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for property in properties %}
+                <tr>
+                    <td>
+                        {% if property.image %}
+                        <img src="{{ property.image.url }}" alt="{{ property.title }}">
+                        {% else %}
+                        <div class="no-image">No Image</div>
+                        {% endif %}
+                    </td>
+                    <td>{{ property.title }}</td>
+                    <td>${{ property.price }}</td>
+                    <td>{{ property.location }}</td>
+                    <td>
+                        {% if property.available %}
+                        <span style="color: green; font-weight: bold;">Available</span>
+                        {% else %}
+                        <span style="color: red; font-weight: bold;">Sold</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <p>{{ property.description|slice:":100" }}{% if property.description|length > 100 %}...{% endif %}</p>
+                    </td>
+                    <td><a href="{% url 'property_detail_buyer' property.id %}">View Details</a></td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="7" style="text-align: center; font-weight: bold;">No properties available.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+</body>
+</html>

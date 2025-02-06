@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete Property</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: beige;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .confirmation-box {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+        }
+
+        .confirmation-box h2 {
+            margin-bottom: 20px;
+            font-size: 24px;
+            color: #333;
+        }
+
+        .confirmation-box p {
+            font-size: 16px;
+            color: #555;
+            margin-bottom: 25px;
+        }
+
+        .confirmation-box strong {
+            color: #e74c3c;
+        }
+
+        .confirmation-box form {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .confirmation-box button {
+            background-color: #e74c3c;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        .confirmation-box button:hover {
+            background-color: #c0392b;
+        }
+
+        .confirmation-box a {
+            background-color: #3498db;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        .confirmation-box a:hover {
+            background-color: #2980b9;
+        }
+
+        @media (max-width: 480px) {
+            .confirmation-box {
+                padding: 20px;
+            }
+
+            .confirmation-box h2 {
+                font-size: 20px;
+            }
+
+            .confirmation-box p {
+                font-size: 14px;
+            }
+
+            .confirmation-box button,
+            .confirmation-box a {
+                padding: 10px 20px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="confirmation-box">
+        <h2>Delete Property</h2>
+        <p>Are you sure you want to delete "<strong>{{ property.title }}</strong>"?</p>
+        <form method="POST">
+            {% csrf_token %}
+            <button type="submit">Yes, Delete</button>
+            <a href="{% url 'seller_dashboard' %}">Cancel</a>
+        </form>
+    </div>
+</body>
+</html>

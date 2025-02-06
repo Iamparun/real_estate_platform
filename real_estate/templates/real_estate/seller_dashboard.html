@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seller Dashboard</title>
+    <style>
+        /* General Reset */
+        * {
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        /* Body Styling */
+        body {
+            background-color:beige;
+            color: #333;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            min-height: 100vh;
+        }
+
+        h1 {
+            font-size: 36px;
+            margin-bottom: 20px;
+            color: #2c3e50;
+            text-align: center;
+        }
+
+        /* Add Property Button Styling */
+        a {
+            background-color: #3498db;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 16px;
+            margin-bottom: 20px;
+            transition: background-color 0.3s ease;
+        }
+
+        a:hover {
+            background-color: #2980b9;
+        }
+
+        /* Logout Button */
+        form {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+
+        button {
+            background-color: #e74c3c;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #c0392b;
+        }
+
+        /* Table Styling */
+        table {
+            width: 100%;
+            max-width: 1200px;
+            margin-top: 40px;
+            border-collapse: collapse;
+            background-color: #fff;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #3498db;
+            color: white;
+        }
+
+        td {
+            background-color: #f9fafb;
+        }
+
+        td img {
+            max-width: 80px;
+            height: auto;
+            border-radius: 5px;
+        }
+
+        td a {
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+
+        td a:hover {
+            color: #1abc9c;
+        }
+
+        /* No properties message */
+        .no-properties {
+            padding: 40px;
+            text-align: center;
+            font-size: 18px;
+            color: #7f8c8d;
+            background-color: #fff;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 28px;
+            }
+
+            table {
+                font-size: 14px;
+            }
+
+            td img {
+                max-width: 60px;
+            }
+
+            a {
+                font-size: 14px;
+                padding: 10px 15px;
+            }
+
+            form {
+                top: 10px;
+                right: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 24px;
+            }
+
+            table {
+                font-size: 12px;
+            }
+
+            td img {
+                max-width: 50px;
+            }
+
+            a {
+                font-size: 12px;
+                padding: 8px 12px;
+            }
+
+            form {
+                top: 10px;
+                right: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Seller Dashboard</h1>
+
+    <!-- Add Property Button -->
+    <a href="{% url 'add_property' %}">Add a New Property</a>
+
+    <!-- Logout Button -->
+    <form action="{% url 'logout' %}" method="post">
+        {% csrf_token %}
+        <button type="submit">Logout</button>
+    </form>
+
+    <!-- Property Listings Table -->
+    <table>
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Price</th>
+                <th>Location</th>
+                <th>Image</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for property in properties %}
+            <tr>
+                <td>{{ property.title }}</td>
+                <td>${{ property.price }}</td>
+                <td>{{ property.location }}</td>
+                <td>
+                    {% if property.image %}
+                        <img src="{{ property.image.url }}" alt="{{ property.title }}">
+                    {% else %}
+                        No Image
+                    {% endif %}
+                </td>
+                <td>
+                    <a href="{% url 'edit_property' property.id %}">Edit</a> |
+                    <a href="{% url 'delete_property' property.id %}" onclick="return confirm('Are you sure you want to delete this property?')">Delete</a> |
+                    <a href="{% url 'property_detail' property.id %}">View Details</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5" class="no-properties">You have no properties listed.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</body>
+</html>
